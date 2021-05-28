@@ -72,7 +72,6 @@ class CategoryController extends Controller
         }
     }
 
-
     public function destroy(int $id) : \Illuminate\Http\JsonResponse
     {
         try {
@@ -83,6 +82,19 @@ class CategoryController extends Controller
                     'msg' => 'Categoria deletada com sucesso!'
                 ]
             ]);
+        } catch (\Exception $exception) {
+            $message = new ApiMessages($exception->getMessage());
+            return response()->json($message->getMessage(),401);
+        }
+    }
+
+    public function realStates(int $id): \Illuminate\Http\JsonResponse
+    {
+        try {
+            $category = $this->category->query()->findOrFail($id);
+            return response()->json([
+                'data' => $category->realStates
+            ],200);
         } catch (\Exception $exception) {
             $message = new ApiMessages($exception->getMessage());
             return response()->json($message->getMessage(),401);

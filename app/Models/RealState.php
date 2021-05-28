@@ -23,7 +23,13 @@ class RealState extends Model
 
     ];
 
-    public function user() {
+    public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
         return $this->belongsTo(User::class);
+    }
+
+    public function categories(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    {
+        return $this->belongsToMany(Category::class,'real_state_categories');
     }
 }
