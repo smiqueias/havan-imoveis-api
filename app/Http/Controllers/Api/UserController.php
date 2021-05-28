@@ -26,7 +26,14 @@ class UserController extends Controller
     {
         $data = $request->all();
 
+
+        if (!$request->has('password') || !$request->get('password')) {
+            $message = new ApiMessages('É necessário informar uma senha para o usuário...');
+            return response()->json($message->getMessage(),401);
+        }
+
         try {
+            $data['password'] = bcrypt($data['password']);
             $user = $this->user->query()->create($data);
             return response()->json([
                 'data' => [
@@ -58,6 +65,12 @@ class UserController extends Controller
     public function update(Request $request,int $id) : \Illuminate\Http\JsonResponse
     {
         $data = $request->all();
+
+        if ($request->has('password') && $request->get('password')) {
+           $data['password'] = bcrypt($data['password']);
+        } else {
+            unset($data['password']);
+        }
 
         try {
             $user = $this->user->query()->findOrFail($id);
