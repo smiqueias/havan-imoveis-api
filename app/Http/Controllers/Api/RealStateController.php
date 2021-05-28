@@ -17,6 +17,19 @@ class RealStateController extends Controller
         $this->realState = $realState;
     }
 
+    public function show($id) {
+        try {
+            $realState = $this->realState->query()->findOrFail($id);
+            return response()->json([
+                'data' => [
+                    $realState
+                ]
+            ]);
+        } catch (\Exception $exception) {
+            return response()->json(['error' => $exception->getMessage()],401);
+        }
+    }
+
     public function index()  {
         $realState = $this->realState->paginate('10');
         return response()->json($realState,200);
@@ -27,7 +40,7 @@ class RealStateController extends Controller
         $data = $request->all();
 
         try {
-            $realState = $this->realState->create($data);
+            $realState = $this->realState->query()->create($data);
             return response()->json([
                 'data' => [
                     'msg' => 'Imóvel cadastrado com sucesso'
@@ -43,7 +56,7 @@ class RealStateController extends Controller
         $data = $request->all();
 
         try {
-            $realState = $this->realState->findOrFail($id);
+            $realState = $this->realState->query()->findOrFail($id);
             $realState->update($data);
             return response()->json([
                 'data' => [
@@ -53,5 +66,21 @@ class RealStateController extends Controller
         } catch (\Exception $exception) {
             return response()->json(['error' => $exception->getMessage()],401);
         }
+    }
+
+    public function destroy($id) {
+
+        try {
+            $realState = $this->realState->query()->findOrFail($id);
+            $realState->delete();
+            return response()->json([
+                'data' => [
+                    'msg' => 'Imóvel removido com sucesso'
+                ]
+            ],200);
+        } catch (\Exception $exception) {
+            return response()->json(['error' => $exception->getMessage()],401);
+        }
+
     }
 }
