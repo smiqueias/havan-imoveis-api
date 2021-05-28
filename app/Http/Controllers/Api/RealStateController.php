@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Api\ApiMessages;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\RealStateRequest;
 use App\Models\RealState;
-use Illuminate\Http\Request;
-use Illuminate\Http\Resources\Json\JsonResource;
+
 
 class RealStateController extends Controller
 {
@@ -17,7 +18,8 @@ class RealStateController extends Controller
         $this->realState = $realState;
     }
 
-    public function show($id) {
+    public function show($id): \Illuminate\Http\JsonResponse
+    {
         try {
             $realState = $this->realState->query()->findOrFail($id);
             return response()->json([
@@ -26,16 +28,19 @@ class RealStateController extends Controller
                 ]
             ]);
         } catch (\Exception $exception) {
-            return response()->json(['error' => $exception->getMessage()],401);
+            $message = new ApiMessages($exception->getMessage());
+            return response()->json($message->getMessage(),401);
         }
     }
 
-    public function index()  {
-        $realState = $this->realState->paginate('10');
+    public function index(): \Illuminate\Http\JsonResponse
+    {
+        $realState = $this->realsssState->paginate('10');
         return response()->json($realState,200);
     }
 
-    public function store(Request $request) {
+    public function store(RealStateRequest $request): \Illuminate\Http\JsonResponse
+    {
 
         $data = $request->all();
 
@@ -47,11 +52,13 @@ class RealStateController extends Controller
                 ]
             ],200);
         } catch (\Exception $exception) {
-            return response()->json(['error' => $exception->getMessage()],401);
+            $message = new ApiMessages($exception->getMessage());
+            return response()->json($message->getMessage(),401);
         }
     }
 
-    public function update($id,Request $request) {
+    public function update($id,RealStateRequest $request): \Illuminate\Http\JsonResponse
+    {
 
         $data = $request->all();
 
@@ -64,11 +71,13 @@ class RealStateController extends Controller
                 ]
             ],200);
         } catch (\Exception $exception) {
-            return response()->json(['error' => $exception->getMessage()],401);
+            $message = new ApiMessages($exception->getMessage());
+            return response()->json($message->getMessage(),401);
         }
     }
 
-    public function destroy($id) {
+    public function destroy($id): \Illuminate\Http\JsonResponse
+    {
 
         try {
             $realState = $this->realState->query()->findOrFail($id);
@@ -79,7 +88,8 @@ class RealStateController extends Controller
                 ]
             ],200);
         } catch (\Exception $exception) {
-            return response()->json(['error' => $exception->getMessage()],401);
+            $message = new ApiMessages($exception->getMessage());
+            return response()->json($message->getMessage(),401);
         }
 
     }
