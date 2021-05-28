@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\RealStateController;
+use App\Http\Controllers\Api\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -20,7 +21,12 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::prefix('v1')->group(function () {
-       Route::name('real_states.')->group(function () {
+
+    Route::name('real_states.')->group(function () {
            Route::resource('real-states',RealStateController::class);
        });
+
+    Route::name('users')->group(function () {
+        Route::resource('users',UserController::class);
+    });
 });

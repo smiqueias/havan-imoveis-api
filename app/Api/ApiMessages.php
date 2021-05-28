@@ -6,7 +6,7 @@ namespace App\Api;
 
 class ApiMessages
 {
-    private $message = [];
+    private array $message = [];
 
     public function __construct(string $message, array $data = [])
     {
@@ -14,7 +14,7 @@ class ApiMessages
         $this->message['errors'] = $data;
     }
 
-    public function getMessage() {
+    public function getMessage() : array {
         return $this->message;
     }
 
