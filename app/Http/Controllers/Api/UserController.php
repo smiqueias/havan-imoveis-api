@@ -79,7 +79,6 @@ class UserController extends Controller
         }
     }
 
-
     public function update(Request $request,int $id) : \Illuminate\Http\JsonResponse
     {
         $data = $request->all();
@@ -106,7 +105,6 @@ class UserController extends Controller
             return response()->json($message->getMessage(),401);
         }
     }
-
 
     public function destroy(int $id) : \Illuminate\Http\JsonResponse
     {
