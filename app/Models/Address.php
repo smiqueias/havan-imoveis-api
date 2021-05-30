@@ -9,12 +9,21 @@ class Address extends Model
 {
     use HasFactory;
 
-    public function state() {
+    public function state(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
         return $this->belongsTo(State::class);
     }
 
-    public function city() {
+    public function city(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
         return $this->belongsTo(City::class);
     }
+
+    public function realState(): \Illuminate\Database\Eloquent\Relations\HasOne
+    {
+        return $this->hasOne(RealState::class);
+    }
+
+
 
 }

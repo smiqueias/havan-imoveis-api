@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\Auth\LoginJwtController;
 use App\Http\Controllers\Api\RealStateController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\CategoryController;
+use App\Http\Controllers\Api\RealStateSearchController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -29,6 +30,8 @@ Route::prefix('v1')->group(function () {
 
     Route::post('login',[LoginJwtController::class,'login']);
     Route::post('logout',[LoginJwtController::class,'logout']);
+
+    Route::get('/search',[RealStateSearchController::class,'index']);
 
     Route::group(['middleware' => ['jwt.auth'] ],function () {
         Route::name('real_states.')->group(function () {
